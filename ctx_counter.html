@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var timeout = 3000, start = Date.now();
+		var num = document.createElement("canvas");
+		document.body.appendChild(num);
+		var context = num.getContext("2d");
+            context.lineWidth = 2;
+            context.lineJoin = "round";
+			context.strokeStyle = "#FFF";
+			
+		function animation() {
+				
+                context.clearRect(0, 0, 100, 100);
+				var d = Math.min(Date.now() - start, timeout);
+				if (d === timeout) return;
+				console.log(d);
+                var s = (0.5 + d / timeout) * Math.PI * 2;
+                context.beginPath();
+                context.moveTo(99, 50);
+                context.arc(50, 50, 49, 0, 2 * Math.PI);
+                context.strokeStyle = "rgba(128, 128, 128, 0.25)";
+                context.stroke();
+                context.beginPath();
+                context.moveTo(50, 50);
+                context.arc(50, 50, 48, s + (0.5) * Math.PI, Math.PI + (0.5) * Math.PI);
+                context.lineTo(50, 50);
+                context.fillStyle = "rgba(" + Math.round(34 + Math.max(d / timeout * 3000 / 10 - 150, 0)) + ", " + Math.round(34 - d / timeout * 3000 / 300) + ", " + Math.round(34 - d / timeout * 3000 / 300) + ", 0.9)";
+                context.fill();
+                context.strokeStyle = "#FFF";
+                context.stroke();
+                requestAnimationFrame(animation)
+			}
+			
+			animation();
+		</script>
+</body>
+</html>
