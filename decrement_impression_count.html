@@ -1,0 +1,15 @@
+<script>
+    (function () {
+        setTimeout(function () {
+            try {
+                var oznaceni = document.querySelector('#reklama-leader .reklama-nazev');
+                oznaceni.classList.remove('sa-show');
+                oznaceni.classList.add('sa-hide');
+            } catch (e) {}
+            var img = new Image(1, 1);
+            img.border = 0;
+            img.style.display = "none";
+            img.src = "https://a.centrum.cz/cent/count/inc=-1/fcid=%%FCID%%/random=%%RANDOM%%";
+        }, 700);
+    })();
+</script>
