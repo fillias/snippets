@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="https://content.aimatch.com/js/sasia/v1/sasia.min.js"></script>
+</head>
+
+<body>
+    <iframe style="width:300px; height:250px;border:1px solid red;" id="ifrejm"  frameborder="0"></iframe>
+
+    <script>
+    //var content = '<div id="rcjsload_2c8ad6"></div><scr'+'ipt type="text/javascript">!function(){var e="";try{if(void 0===(e=document.referrer)||""==e)throw"undefined"}catch(t){(""==(e=document.location.href)||void 0===e)&&(e=document.URL)}e=e.substr(0,700);var t=document.getElementById("rcjsload_2c8ad6"),n=document.createElement("script");n.id="rc_"+Math.floor(1e3*Math.random()),n.type="text/javascript",n.src="https://trends.revcontent.com/serve.js.php?w=110925&t="+n.id+"&c="+(new Date).getTime()+"&width="+(window.outerWidth||document.documentElement.clientWidth)+"&referer="+encodeURIComponent(e),n.async=!0,t.appendChild(n)}();</scr'+ 'ipt>';
+
+    var content='<p>baf</p>';
+        var iframe = document.getElementById("ifrejm");
+
+        var frameDoc = iframe.document;
+        if (iframe.contentWindow) frameDoc = iframe.contentWindow.document;
+
+        frameDoc.open();
+        frameDoc.writeln(content);
+        frameDoc.close();
+    
+    </script>
+
+</body>
+
+</html>
