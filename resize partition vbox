@@ -1,0 +1,6 @@
+"c:\Program Files\Oracle\VirtualBox\VBoxManage.exe” clonemedium –format VDI "C:\Users\cizkovsky\VirtualBox VMs\ubuntu_bionic\ubuntu_bionic-disk002.vmdk" "C:\Users\cizkovsky\VirtualBox VMs\ubuntu_bionic\ubuntu_bionic-disk002.vdi"
+
+
+
+
+"c:\Program Files\Oracle\VirtualBox\VBoxManage.exe” modifymedium "C:\Users\cizkovsky\VirtualBox VMs\ubuntu_bionic\ubuntu_bionic-disk002.vdi" –-resize 27000

@@ -1,0 +1,55 @@
+<h2>test regex creatived TT</h2>
+<script>
+    /*
+v creative formatech se muze pouzivat pro nahrazeni regex, ktery muze upravit vstupni pole
+
+pokud je tam treba pole "example" a do nej uzivatel napise "http://domain.com/pathinfo", lze to nahradit za 
+http://domain.com/hereissomethingdifferent
+lze pouzit i vice veci s operatorem |
+
+tohle vymeni vse v http://domain.com/3a1/baf/bleble/ook za 
+http://domain.com/hereissomethingdifferent1/hereissomethingdifferent/bleble/hereissomethingdifferent
+*/
+
+
+console.log('vstup:');
+console.log('X_EXAMPLE:', '%%X_EXAMPLE%%');
+
+/* nahrada cachebusteru nejde, nedostanu tam random - evidentne tam nefunguje nesting: */
+console.log('nahrada cachebusteru:');
+console.log('X_EXAMPLE:REGEX,\[timestamp\]|\[INSERT_CACHEBUSTER_HERE\]|\[CACHEBUSTER\],RANDOMTOKEN_rnd: ', '%%X_EXAMPLE:REGEX,\[timestamp\]|\[INSERT_CACHEBUSTER_HERE\]|\[CACHEBUSTER\],%%RANDOM%%%%');
+console.log('---------------');
+/* je to case sensitive */
+console.log('X_EXAMPLE:REGEX,\[timestamp\],Nahrada: ', '%%X_EXAMPLE:REGEX,\[timestamp\],Nahrada%%');
+
+console.log('X_EXAMPLE:REGEX,pathinfo|baf|[0-3]a|ook,hereissomethingdifferent: ', '%%X_EXAMPLE:REGEX,pathinfo|baf|[0-3]a|ook,hereissomethingdifferent%%');
+
+console.log('X_EXAMPLE:REGEX,\[timestamp\]|\[INSERT_CACHEBUSTER_HERE\]|\[CACHEBUSTER\],Nahrada: ', '%%X_EXAMPLE:REGEX,\[timestamp\]|\[INSERT_CACHEBUSTER_HERE\]|\[CACHEBUSTER\],Nahrada%%');
+
+/* [] je treba escapovat */
+console.log('[] je treba escapovat:');
+console.log('X_EXAMPLE:REGEX,[timestamp]|[INSERT_CACHEBUSTER_HERE]|[CACHEBUSTER],Nahrada: ', '%%X_EXAMPLE:REGEX,[timestamp]|[INSERT_CACHEBUSTER_HERE]|[CACHEBUSTER],Nahrada%%');
+
+
+console.log('X_EXAMPLE:REGEX,\[timestamp\],Nahrada: ', '%%X_EXAMPLE:REGEX,\[timestamp\],Nahrada%%');
+console.log('X_EXAMPLE:REGEX,\[TIMESTAMP\],Nahrada: ', '%%X_EXAMPLE:REGEX,\[TIMESTAMP\],Nahrada%%');
+
+/* [] je treba escapovat */
+console.log('[] je treba escapovat:');
+console.log('X_EXAMPLE:REGEX,[TIMESTAMP],Nahrada: ', '%%X_EXAMPLE:REGEX,[TIMESTAMP],Nahrada%%');
+
+/* /i nefacha */
+console.log('X_EXAMPLE:REGEX,[cachebuster]/i,Nahrada: ', '%%X_EXAMPLE:REGEX,[cachebuster]/i,Nahrada%%');
+console.log('X_EXAMPLE:REGEX,cachebuster/i,Nahrada: ', '%%X_EXAMPLE:REGEX,cachebuster/i,Nahrada%%');
+console.log('X_EXAMPLE:REGEX,cachebuster\/i,Nahrada: ', '%%X_EXAMPLE:REGEX,cachebuster\/i,Nahrada%%');
+
+
+
+/* nahrada za default */
+console.log('X_EXAMPLE2:', '%%X_EXAMPLE2:?"some_default"%%');
+
+
+
+/* https://secure.insightexpressai.com/adServer/adServerESI.aspx?script=false&bannerID=5061654&rnd=[INSERT_CACHEBUSTER_HERE]&gdpr=&gdpr_consent=&redir=https://track.adform.net/adfserve/?bn=30595770;1x1inv=1;srctype=3;ord=[timestamp] */
+</script>
+

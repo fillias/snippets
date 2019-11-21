@@ -136,3 +136,51 @@ function matchesSelector(el, selector) {
 
 // Usage
 matchesSelector(document.getElementById('myDiv'), 'div.someSelector[some-attribute=true]')
+
+
+
+/* entitze ************** */
+var entitize = function(html) {
+    var character, code, i, result, ret, _i, _ref;
+    ret = [];
+    for (i = _i = 0, _ref = html.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+      code = html.charCodeAt(i);
+      character = html.charAt(i);
+      result = code < 128 ? character : "&#" + code + ";";
+      ret.push(result);
+    }
+    return ret.join('');
+  };
+
+  console.log(entitize('žofinka ma hlad'));
+
+
+  /*  Vazeny prumer ***************************************/
+
+var a = [62, 67, 71, 74, 76, 77, 78, 79, 79, 80, 80, 81, 81, 82, 83, 84, 86, 89, 93, 98];
+
+var b = [80, 81, 82, 83, 84, 85, 86, 87, 87, 88, 88, 89, 89, 89, 90, 90, 90, 90, 91, 91, 91, 92, 92, 93, 93, 94, 95, 96, 97, 98, 99, 100];
+
+function getPrumer (vstup) {
+    var soucet = vstup.reduce( (acc, currentvalue) => {
+        return acc + currentvalue;
+    });
+    return soucet / vstup.length;
+}
+
+function getVazenyPrumer (vstup1, vstup2) {
+    var prumer1 = getPrumer(vstup1);
+    var prumer2 = getPrumer(vstup2);
+
+    return (prumer1 * vstup1.length + prumer2 * vstup2.length) / (vstup1.length + vstup2.length) ;
+}
+
+console.log(getVazenyPrumer(a, b));
+
+
+/*  get uniques from array */
+function getUnique(arr) { 
+    return arr.filter( (value, index, self) => { 
+        return self.indexOf(value) === index;
+    } );
+}

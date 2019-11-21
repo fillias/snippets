@@ -56,14 +56,15 @@ function loadJquery() {
 
 
     Promise.all([
-        load.js('https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js') 
+        load.js('https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'),
+        load.js(`https://i0.cz/reklama/bo/_stale_zdroje/sasicek.min.js?v2`)
         /* load co potrebujes
         load.css('nejaky_css.css'),
         load.img('img.png')
         */
       ]).then(function() {
         console.log('__3rd cube__ Promise, Jquery loadle, startuju startCube()'); 
-        startCube();
+        //startCube();
       }).catch(function(e) {
         console.log('___3rd cube Promise err: ' + e);
       });

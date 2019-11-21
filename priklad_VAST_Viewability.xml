@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="4.0" xsi:noNamespaceSchemaLocation="vast.xsd">
+    <Ad id="307681cc-2cc6-46d3-82e1-13cbfe7cd0fa">
+        <InLine>
+            <AdSystem version="8">Adform</AdSystem>
+            <AdTitle>aktualne_floating_VPRE_VPRE_CPM_VAS_BRD_NRT_night_cradle</AdTitle>
+            <Impression id="adform"><![CDATA[https://track.adform.net/videoad/impr/?bn=33508461;rotseqno=1;smid=0;1x1inv=1;srctype=3;unloadid=3208251351600826806;idata=2G2vOEABhqTO4A46Rf1pMlPROPh1aj800;;ord=953904]]></Impression>
+            <ViewableImpression>
+                <Viewable><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=110&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Viewable>
+                <NotViewable><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=111&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></NotViewable>
+                <ViewUndetermined><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=112&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></ViewUndetermined>
+            </ViewableImpression>
+            <Creatives>
+                <Creative id="000001" sequence="1" AdID="aa5d6dbd-8d94-45b3-b764-93cfc982db0c">
+                    <UniversalAdId idRegistry="unknown" idValue="unknown" />
+                    <Linear skipoffset="00:00:05">
+                        <Duration>00:00:30</Duration>
+                        <TrackingEvents>
+                            <Tracking event="creativeView"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=40&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="start"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=25&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="firstQuartile"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=26&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="midpoint"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=27&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="thirdQuartile"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=28&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="complete"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=29&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="mute"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=34&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="unmute"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=33&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="pause"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=31&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="resume"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=37&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="fullscreen"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=35&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="rewind"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=38&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="close"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=23&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                            <Tracking event="skip"><![CDATA[https://track.adform.net/videoad/event/?bn=33508461&event=169&time=0&banner=35252144&imprid=3208251351600826806&rnd=953904&]]></Tracking>
+                        </TrackingEvents>
+                        <AdParameters><![CDATA[{"utils":{"bn":"33508461","rotseqno":"1","cookieID":"-3790665992721442869","smid":"0","unloadID":"3208251351600826806","height":720,"width":1280,"pm":"1850163","visibilityArea":"[50]","visibilityTime":"[2]","ms":"2380096","ban":"35252144","serverTime":"1572343434958","sendUnloadData":"1","ufcEnabled":"0","isEventsEnabled":"1","rtbInventorySourceId":"0","rtbReqId":"0","bnpl":"5683475","adfUnlTest":"0"},"shost":"https://s1.adform.net","host":"https://track.adform.net","cdnHost":"https://s1.adform.net","maintainAspectRatio":true,"scalable":true}]]></AdParameters>
+                        <VideoClicks>
+                            <ClickThrough><![CDATA[https://track.adform.net/videoad/c/?bn=33508461;cdata=I_heqYQHlPcTfpA1YKCXdtbaicGMHxG4ZPSVCRcBPzE1;C=1;]]></ClickThrough>
+                        </VideoClicks>
+                        <MediaFiles>
+                            <MediaFile delivery="progressive" type="video/mp4" bitrate="999" width="832" height="468" scalable="true" maintainAspectRatio="true"><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258678.mp4?bv=0&ADFAssetID=7258678]]></MediaFile>
+                            <MediaFile delivery="progressive" type="video/mp4" bitrate="1739" width="1280" height="720" scalable="true" maintainAspectRatio="true"><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258687.mp4?bv=0&ADFAssetID=7258687]]></MediaFile>
+                            <MediaFile delivery="progressive" type="video/mp4" bitrate="454" width="416" height="234" scalable="true" maintainAspectRatio="true"><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258680.mp4?bv=0&ADFAssetID=7258680]]></MediaFile>
+                            <MediaFile delivery="progressive" type="video/webm" bitrate="805" width="832" height="468" scalable="true" maintainAspectRatio="true"><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258689.webm?bv=0&ADFAssetID=7258689]]></MediaFile>
+                            <MediaFile delivery="progressive" type="video/webm" bitrate="1442" width="1280" height="720" scalable="true" maintainAspectRatio="true"><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258715.webm?bv=0&ADFAssetID=7258715]]></MediaFile>
+                            <MediaFile delivery="progressive" type="video/webm" bitrate="381" width="416" height="234" scalable="true" maintainAspectRatio="true"><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258684.webm?bv=0&ADFAssetID=7258684]]></MediaFile>
+                            <MediaFile delivery="progressive" type="video/ogg" bitrate="1012" width="832" height="468" scalable="true" maintainAspectRatio="true"><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258686.ogv?bv=0&ADFAssetID=7258686]]></MediaFile>
+                            <MediaFile delivery="progressive" type="video/ogg" bitrate="1714" width="1280" height="720" scalable="true" maintainAspectRatio="true"><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258691.ogv?bv=0&ADFAssetID=7258691]]></MediaFile>
+                            <MediaFile delivery="progressive" type="video/ogg" bitrate="511" width="416" height="234" scalable="true" maintainAspectRatio="true"><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258681.ogv?bv=0&ADFAssetID=7258681]]></MediaFile>
+                            <Mezzanine><![CDATA[https://s1.adform.net/Banners/Elements/Files/258209/7258658.mp4?bv=0&ADFAssetID=7258658]]></Mezzanine>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+            <Extensions>
+                <Extension type="adc">258209</Extension>
+                <Extension type="cpid">1850163</Extension>
+                <Extension type="site">1459277</Extension>
+                <Extension type="place">5683475</Extension>
+                <Extension type="size">1280x720</Extension>
+                <Extension type="tm">78126</Extension>
+            </Extensions>
+        </InLine>
+    </Ad>
+</VAST>
