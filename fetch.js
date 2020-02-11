@@ -1,4 +1,4 @@
-fetch('https://a.centrum.cz/cent/hserver/SASPB/FCID=%%FCID%%')
+fetch('https://a.centrum.cz/cent/tserver/fcid=107694')
   .then(function (response) {
     return response.text();
   })

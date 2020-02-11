@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .wrap {
+      width: 10rem;
+      height: 3rem;
+      background-color: cadetblue;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: wheat;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .text {
+      width: 220%; 
+       animation: rightcrawl 5s linear infinite;
+      position: absolute;
+    }
+
+    @-webkit-keyframes rightcrawl {
+      from {
+        -webkit-transform: translateX(20rem);
+        transform: translateX(20rem);
+      }
+      to {
+        -webkit-transform: translateX(-20rem);
+        transform: translateX(-20rem);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <span class="text">ahoj bla bla ahoj bla blaahoj bla bla</span>
+  </div>
+
+</body>
+
+</html>
