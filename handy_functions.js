@@ -184,3 +184,54 @@ function getUnique(arr) {
         return self.indexOf(value) === index;
     } );
 }
+
+
+
+
+// iterace v objektu misto for...in vcetne zjisteni konce
+const object = {a: 1, b: 2, c: 3};
+
+Object.keys(object).forEach(function(key, i) {
+  var keys = Object.keys(object);
+  var last = keys[keys.length-1];
+
+  console.log(keys.length-1);
+
+  console.log(`${key}: ${object[key]} ${i}`);
+});
+
+
+//  wait funkce s async / await
+function wait(ms) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+}
+  
+  
+  async function doStuff() {
+    for (i = 0; i < 5; i++) {
+  
+      await wait(2000);
+      console.log(i);
+    }
+    console.log('done loop');
+  }
+  doStuff();
+  
+  console.log('done first');
+
+
+
+  // async v forEach
+  async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array);
+    }
+  }
+
+  asyncForEach([1, 2, 3], async (num) => {
+    await waitFor(50);
+    console.log(num);
+  })
+  console.log('Done')
