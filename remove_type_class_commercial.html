@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <a href="#" type="commercial" class="komercni-odkaz xxx"></a>
+    <a href="#" type="commercial" class="komercni-odkaz"></a>
+    <a href="#" type="ffg" class="dkaz aaa "></a>
+    <a href="#" class="dkaz"></a>
+
+    <script>
+        (function () {
+            var anchors = document.getElementsByTagName('a');
+            console.log(anchors);
+
+            var commercials = [];
+
+            for (var i = 0; i < anchors.length; i++) {
+                if (anchors[i].type === 'commercial') {
+                    commercials.push(anchors[i]);
+                }
+            }
+
+            console.log(commercials);
+
+            commercials.forEach(function (c) {
+                c.classList.remove('komercni-odkaz');
+                c.removeAttribute('type');
+            })
+        })();
+    </script>
+
+</body>
+
+</html>
