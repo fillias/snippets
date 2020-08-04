@@ -1,7 +1,7 @@
 	// MONITORING POSTSCRIBE
 	(function() {
 		var localPostscribe;
-		Object.defineProperty(window, 'postscribe', {
+		Object.defineProperty(window, 'ble', {
 			get() {
 				console.log('GET POSTSCRIBE');
 				return localPostscribe;
