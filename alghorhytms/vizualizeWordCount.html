@@ -48,7 +48,8 @@ function getWordFrequency(words) {
 
 function getNormalisedWordFrequency(wordFrequenciesMap) {
 	const wordFrequencies = [...wordFrequenciesMap];
-	const frequencyData = wordFrequencies.map(([, frequency]) => frequency);
+    const frequencyData = wordFrequencies.map(([, frequency]) => frequency);
+    // console.log(frequencyData);
 	const maxFrequency = Math.max(...frequencyData);
 
 	return wordFrequencies.reduce((map, [word, frequency]) => {
@@ -58,6 +59,7 @@ function getNormalisedWordFrequency(wordFrequenciesMap) {
 }
 
 function createTagCloudTemplate(wordFrequencies) {
+    // console.log(wordFrequencies);
 	const container = [...wordFrequencies].reduce((map, [word, frequency]) => {
 		const wordItem = document.createElement('li');
 		wordItem.textContent = word;
