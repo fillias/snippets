@@ -13,4 +13,6 @@ ftp://cizkovsky@img-upl.chservices.cz:26/bo/fil/test/tier_video.webm
 
 https://i0.cz/reklama/bo/adcook/tempMerakyCheck/adcook_boTools_meraky.html
 
-test
+https://i0.cz/reklama/bo/_stale_zdroje/consoleLog.js
+
+

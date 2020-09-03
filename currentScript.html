@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+
+	<div id="test">
+
+		<script>
+			const innerScr = document.createElement('script');
+			innerScr.id = 'inner';
+			innerScr.text = `
+				(function(){
+					console.log('ahoj z inner');
+					const thisScript = document.currentScript;
+		
+					setTimeout(() => {
+						const scr = document.createElement('script');
+						scr.src = 'https://i0.cz/reklama/bo/_stale_zdroje/consoleLog.js';
+					   	thisScript.parentNode.appendChild(scr);
+					}, 1000);
+	
+				})();
+		
+				
+            `;
+            
+            /* vlozeni reklamy jde jen do iframe */
+
+            const ad = `
+            <div id="ad">
+                <scr` + `ipt async src="https://i0.cz/reklama/bo/_stale_zdroje/consoleLog.js"></scr`+ `ipt>
+            </div>
+            `;
+
+            const wrappper = document.createElement('div');
+            wrappper.innerHTML = ad;
+	
+			setTimeout(()=>{
+
+                var iframe = document.createElement("iframe");
+                document.getElementById('test').appendChild(iframe);
+                var frameDoc = iframe.document;
+                if (iframe.contentWindow) frameDoc = iframe.contentWindow.document;
+
+                frameDoc.open();
+                frameDoc.writeln(ad);
+                frameDoc.close();
+
+				
+			}, 1000);
+		</script>
+
+	</div>
+
+	
+</body>
+</html>
