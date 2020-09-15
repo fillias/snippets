@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+     <!-- v hlavicce zavolame sashec knihovnu, ta se stara o cileni a render reklam -->
+    <script type="text/javascript" src="https://i0.cz/sashec/js/sashec.bundle.min.js"></script>
+
+   
+    <!-- v hlavicce nastavime "group" cileni pro reklamy -->
+    <script>
+
+        /*  
+        v Groupe definujeme cileni stranky
+
+        je treba vyplnit hodnoty podle nasledujiciho klice:
+
+        site			povinny uvadet, nazev webu
+        area			povinny uvadet, prvni uroven menu
+        keyword			klicova slova - do sashec se posila jako pole stringu, lowercase, ascii, pozor na znaky [=/,%],
+        
+        objekt targets kde jsou klice:
+            device			povinny uvadet,  hodnoty jsou jednopismenne - d, t, m  (desktop, tablet, mobile)
+            template		povinny uvadet, k odliseni konkretnich sablon - hodnoty podle typu objektu -- hp, list, article, gallery
+            sec1			prvni uroven podsekci, vyplnit pokud existuje
+            sec2			druha uroven podsekci, vyplnit pokud existuje 
+            id		    	identifikator objektu jenz reprezentuje stranka - napr guid/id clanku, guid/id galerie atp.
+
+
+
+        callback
+        Callbacky jde pridat bud primo Grupe reklam nebo i konkretni pozici, volan bude bud jen callback grupy nebo jen callback pozice (pokud je uveden u pozice dojde k pretizeni callbacku grupy). Callbackem je myslena funkce, ktera umi handlovat jeden vstupni atribut (event object). Struktura event objektu rika co a kde se s reklamni pozici stalo. 
+        
+        var callback = function(e) {
+            var type = e.type;         // preinsert | insert | precleanup | cleanup - event type
+            var position = e.position; // Reference of position object
+            var group = e.group;       // Reference for position group
+            var is_empty = e.is_empty; // If element was empty (clean ad or empty before)
+        }
+
+        Priklad callbacku u pozice na Aktualne.cz:
+        _sashec_queue.push(['position', 'sas-commercial-1', {
+            size:'commercial',
+            pos:1,
+            callback: function(evt) {
+                if(evt.type == 'insert' && !evt.is_empty) {
+                // funkce co zviditelni nejaky div v kterem je tento commercial umisteny pokud ma reklama obsah
+                SiteAdvert.show('group-textove-tipy');
+                }
+            }
+        }]);
+
+                size			position specificky, povinny uvadet, od verze 1.5 muze byt pole nekolika ruznych size (multisize targeting)
+        */
+
+
+
+        /* Priklad pro URL https://www.drbna.cz/zpravy/doprava/6633-sprava-zeleznic-chysta-studii-pro-trat-z-mlade-boleslavi-do-liberce.html na desktopu */
+
+        _sashec_queue.push(['group', {
+            site: 'drbna',
+            area: 'zpravy',
+            targets: {
+                device: 'd',
+                id: 6633
+            },
+            keyword: ['cr', 'zeleznice', 'stavby'],
+            callback: function (evt) {
+                if (evt.type == 'insert' && evt.is_empty) {
+                    var position = evt.position.getElementId();
+                    console.log(position);
+                }
+            },
+            render: 'postscribe'
+        }]);
+
+
+    </script>
+
+</head>
+<body>
+
+    <!-- 
+    pokud se na stranku vrati kreativa brandingu, prida na body class "with-fireplace"  
+    v tom pripade je treba content webu upravit na sirku 1080px  
+    -->
+
+    <!-- web je treba obalit temito tremi wrappery do kterych zapisuji pozadi kreativy brandingu a nestandardu-->
+    <div class="brand-a" id="brand-a">
+        <div class="brand-b" id="brand-b">
+             <div class="brand-c" id="brand-c">
+
+
+                <!-- 
+
+                    size ktere volat na desktopu:
+
+                    leader nahore na strance, vraci bud 990x210 nebo branding: leader,79a,91a,92a,11a,21a
+
+                    pozice 300x600: halfpage,mediumrectangle,square300,widesky
+
+                    pozice 480x300: wallpaper,mpu,sq3
+
+                    pozice 970x310 volana vetsinou na spodku stranky: megaboard,79b,91b,92b,93b
+
+
+                    Size ktere volat na mobilu:
+
+                    uplne nahore nad menu: strip
+
+                    v toku clanku nebo mezi vypisy clanku: mediumrectangle, square300
+
+
+
+                 -->
+
+
+
+                <!-- priklad volani pozice leaderboard / fireplace -->
+
+                <div id="reklama-leader" class="reklama-leader reklama-div">
+                    <script type="text/javascript">
+
+                        /* na jedne pozici volame vice size, pro leader plati toto */
+                        var size = ['leader', '79a', '91a', '92a', '11a', '21a'];
+
+
+                        _sashec_queue.push(['position', 'reklama-leader', {
+                            size: size,
+                            callback: function (evt) {
+                                if ((evt.type == 'insert') && (evt.is_empty == false)) {
+         
+                                    if (typeof (reklamaLeaderPostCallback) == 'function')
+                                        reklamaLeaderPostCallback();   
+                                }
+                            }
+                        }]);
+                    </script>
+                </div>
+
+
+                <!-- priklad volani pozice halfpage 300x600-->
+                <div id="sas-halfpage">
+                    <script type="text/javascript">
+                        /*  sas-halfpage je id elementu kam se ma vlozit reklama */
+                        _sashec_queue.push(['position', 'sas-halfpage', {
+                            size: ['halfpage','mediumrectangle','square300','widesky'],
+                            pos: 1
+                            /* 
+                                "pos" -  specialni atribut pozice umoznujici injektaci hodnoty pos do targets aniz by bylo potreba opakovat target z grupy
+                                pouziva se pro rozliseni pozice reklam na strance podle nasledujiciho schematu;
+                                Pro desktop - sude jsou v toku clanku, liche v pravem sloupci, u leaderboardu a megaboardu se pos neuvadi:
+
+                                Priklad na desktopu:
+
+                                |           leader (pos neuvadet)       |  
+                                |                                       |
+                                |      [content]       halfpage (pos:1) |
+                                |                                       |
+                                |   wallpaper(pos:2)                    |
+                                |                                       |
+                                |                      halfpage (pos:3) | 
+                                |                                       |
+                                |    wallpaper(pos:4)                   |
+                                |                                       |
+                                |                                       |
+                                |                                       |
+                                |      megaboard (pos neuvadet)         |
+                                |                                       |
+                                |              [footer]                 |
+
+
+
+                                U mobilu plati ze pos uvadime jen u volani pozice mediumrectangle a to odshora dolu 
+
+                                Priklad na mobilu:
+
+                                |           strip(pos neuvadet)       |  
+                                |                                     |  
+                                |       mediumrectangle (pos:1)       |  
+                                |                                     |  
+                                |       mediumrectangle (pos:2)       |  
+                                |                                     |  
+                                |       mediumrectangle (pos:3)       |   
+
+                            */
+                            
+
+                        }]);
+                    </script>
+                </div>
+
+
+                <!-- priklad volani pozice wallpaper 480x300 -->
+                <div id="sas-wallpaper">
+                    <script type="text/javascript">
+                        _sashec_queue.push(['position', 'sas-wallpaper', {
+                            size: ['wallpaper', 'mpu', 'sq3'],
+                            pos: 2                         
+                        }]);
+                    </script>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- pred body inicializujeme volani reklam -->
+
+	<script type="text/javascript">
+		_sashec_queue.push(['loadAll', 'default']);
+	</script>
+
+</body>
+</html>
