@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="" data-tspeed="10" data-tawait="0" data-cursor="|"><div data-typeit="„U nás na oddělení máme zaplněna všechna místa, jakmile se jedno uvolní, za pár hodin přijde další. Nejvíce to odnáší personál, který pracuje na jiných klinikách než na covidových, protože tam musejí zastat práci i za kolegy, kteří byli povoláni do první linie. Již se u nás projevuje únava a nedostatek personálu. Nedokážu si představit, jak to musí vypadat v menší nemocnici mimo Prahu.”" class="activated-typeit"><div class="typeit-content">„U nás na oddělení máme zaplněna všechna místa, jakmile se jedno uvolní, za pár hodin přijde další. Nejvíce to odnáší personál, který pracuje na jiných klinikách než na covidových, protože tam musejí zastat práci i za kolegy, kteří byli povoláni do první linie. Již se u nás projevuje únava a nedostatek personálu. Nedokážu si představit, jak to musí vypadat v menší nemocnici mimo Prahu.”</div></div></div>
+
+    <script>
+
+
+    /*
+        isInViewport( ELEMENT, VALUE (+,-,/,*) window.height , OPERATOR for value)
+        default: 
+            ELEMENT = undefined
+            VALUE = 1.3
+            OPERATOR = '/'
+
+        isInViewport($('.element'), 1.3, '/')
+    */
+    function isInViewport(el,viewDetectVal,operator) {
+        if (!viewDetectVal) viewDetectVal = 1.3;
+        if (!operator) operator = '/';
+        var elementTop = el.offset().top;
+        var elementBottom = elementTop + el.outerHeight();
+
+        var windowHeight = eval($(window).height()+operator+viewDetectVal);
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + windowHeight;
+
+        var isIn = elementBottom > viewportTop && elementTop < viewportBottom
+        return isIn
+    }
+
+    $(window).on('load resize scroll', function () {
+        $('.type-it').each(function () {
+            if (isInViewport($(this),2,'*')) {
+                typeIt($(this));
+                $(this).removeClass('type-it');
+            }
+        })
+    });
+
+
+    function typeIt(idNode) {
+        var way = $(idNode),
+            currDiv = way.find('[data-typeit]'),
+            times = currDiv.length,
+            speed = Number(way.data('tspeed')),
+            wait = Number(way.data('tawait')),
+            cursorQ = way.data('cursor').length > 0 ? way.data('cursor') : false,
+            count = 0,
+            countIndex = 0,
+            contentOut = '',
+            skip = false
+
+            ! function doMagic(idDiv) {
+                var currentData = currDiv.eq(idDiv).data('typeit');
+                currDiv.eq(idDiv).addClass('activated-typeit');
+                var cursor = cursorQ ? '<span class="slash-typeit">' + cursorQ + '<span>' : '';
+
+                ! function letterByLetter() {
+                    contentOut += currentData[countIndex];
+
+                    if (countIndex == currentData.length - 1) cursor = '';
+
+                    var pause = contentOut.substr(contentOut.length - 1);
+
+                    if (pause === '|') {
+                        var delay = 500;
+                        for (var i = countIndex + 1; i < currentData.length; i++) {
+                            if (currentData[i] === '|') {
+                                i = i - countIndex;
+                                delay = currentData.substr(countIndex, i + 1);
+                                currentData = currentData.replace(delay, '');
+                                delay = delay.replace(/\|/g, '');
+                                setTimeout(function () {
+                                    typing();
+                                }, skip ? 0 : delay);
+                                return false;
+                            }
+                        }
+                    } else {
+                        typing();
+                    }
+
+                    function typing() {
+                        contentOut = contentOut.replace('|', '').replace(/\€/g, '<i class="break-typeit"></i>');
+
+                        $(currDiv.eq(idDiv)).html('<div class="typeit-content">' + contentOut + cursor + '</div>');
+                        countIndex++;
+
+                        if (countIndex != currentData.length) {
+                            setTimeout(function () {
+                                letterByLetter();
+                            }, speed);
+                        } else if (countIndex == currentData.length && count != times - 1) {
+                            countIndex = 0;
+                            contentOut = '';
+                            count++;
+                            setTimeout(function () {
+                                doMagic(count);
+                            }, wait);
+                        }
+                    }
+
+                }()
+
+            }(0)
+
+        way.on('click', function () {
+            skip = true;
+            speed = 0;
+            wait = 0;
+        })
+
+    }
+
+
+    </script>
+</body>
+</html>
