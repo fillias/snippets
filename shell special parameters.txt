@@ -1,0 +1,23 @@
+Special Parameters	Description
+
+$#	This parameter represents the number of arguments passed to the shell script.
+$0	This parameter represents the script name.
+$i	This parameter represents the ith argument passed to the shell script like $1,$2
+$*	This parameter gives all arguments passed to the shell script separated by the space.
+$!	This parameter gives PID of the last background running process.
+$?	This parameter represents the exit status of the last command that executed.  The 0 code represents success and 1 represents failure. 
+$_	This parameter gives the last argument provided to the previous command that executed.
+$$	This parameter gives the PID of the current shell.
+$@	This parameter holds all argument passed to the script and treat them as an array. It is similar to the $* parameter
+$- 	This parameter represents the current flags set in your shell .himBH are the flags in bash shell.
+
+Where:
+
+H – histexpand
+m – monitor
+h – hashall
+B – braceexpand
+i – interactive
+
+
+!$  last word of previous command in history
