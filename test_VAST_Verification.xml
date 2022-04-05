@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="4.2" xsi:noNamespaceSchemaLocation="vast.xsd">
+    <Ad id="%%FCID%%">
+        <InLine>
+            <AdSystem>SAS</AdSystem>
+            <AdTitle><![CDATA[video_Preroll]]></AdTitle>
+            <Impression id="saisa_imp"><![CDATA[%%BEACONURL%%]]></Impression>
+            <Impression id="3rdParty_imp"><![CDATA[%%X_IMPRESE_KLIENT%%]]></Impression>
+            <Impression id="3rdParty_imp2"><![CDATA[%%X_IMPRESE_KLIENT2%%]]></Impression>
+            <ViewableImpression>
+                <Viewable><![CDATA[%%VIEWABILITYURL%%]]></Viewable>
+                <NotViewable><![CDATA[%%BASEURL%%/count/actname=NotViewable/fcid=%%FCID%%]]]></NotViewable>
+                <ViewUndetermined><![CDATA[%%BASEURL%%/count/actname=ViewUndetermined/fcid=%%FCID%%]]]></ViewUndetermined>
+            </ViewableImpression>
+             <AdVerifications>
+                <Verification vendor="i0.cz-omid">
+                    <JavaScriptResource apiFramework="omid" browserOptional="true">
+                        <![CDATA[ https://i0.cz/reklama/bo/_stale_zdroje/consoleLog.js ]]>
+                    </JavaScriptResource>
+                    <VerificationParameters>
+                        <![CDATA[ {"host":"https://i0.cz"} ]]>
+                    </VerificationParameters>
+                    <TrackingEvents>
+                        <Tracking event="verificationNotExecuted">
+                            <![CDATA[ https://ad.economia.cz/node/xml-endpoint-tester/?src=vastver_error&msg=[REASON] ]]>
+                        </Tracking>
+                    </TrackingEvents>
+                </Verification>
+            </AdVerifications>
+            <Creatives>
+                <Creative>
+                    <Linear skipoffset="00:00:01">
+                        <TrackingEvents>
+                            <Tracking event="skip"><![CDATA[%%BASEURL%%/count/actname=videoSkip/fcid=%%FCID%%]]></Tracking>
+                            <Tracking event="firstQuartile"><![CDATA[%%BASEURL%%/count/actname=AdFirstQuartile/fcid=%%FCID%%]]></Tracking>
+                            <Tracking event="firstQuartile"><![CDATA[%%X_IMPRESE_KLIENT_FIRSTQUARTILE%%]]></Tracking>
+                            <Tracking event="midpoint"><![CDATA[%%BASEURL%%/count/actname=AdMidPoint/fcid=%%FCID%%]]></Tracking>
+                            <Tracking event="midpoint"><![CDATA[%%X_IMPRESE_KLIENT_MIDPOINT%%]]></Tracking>
+                            <Tracking event="thirdQuartile"><![CDATA[%%BASEURL%%/count/actname=AdThirdQuartile/fcid=%%FCID%%]]></Tracking>
+                            <Tracking event="thirdQuartile"><![CDATA[%%X_IMPRESE_KLIENT_THIRDQUARTILE%%]]></Tracking>
+                            <Tracking event="complete"><![CDATA[%%BASEURL%%/count/actname=AdComplete/fcid=%%FCID%%]]></Tracking>
+                            <Tracking event="complete"><![CDATA[%%X_IMPRESE_KLIENT_COMPLETE%%]]></Tracking>
+                            <Tracking event="complete"><![CDATA[%%X_IMPRESE_KLIENT_COMPLETE2%%]]></Tracking>
+                            <Tracking event="skip"><![CDATA[%%X_IMPRESE_KLIENT_SKIP%%]]></Tracking>
+                        </TrackingEvents>
+                        <VideoClicks>
+                            <ClickThrough id="sasia_click_id_through"><![CDATA[%%PRECLICKURL%%]]></ClickThrough>
+                            <ClickTracking><![CDATA[%%BASEURL%%/count/actname=videoClick/fcid=%%FCID%%]]></ClickTracking>
+                        </VideoClicks>
+                        <MediaFiles>
+                            <MediaFile width="512" height="288" bitrate="400000" type="video/mp4" delivery="progressive"><![CDATA[https://economia-vod.ssl.cdn.cra.cz/0147/5907/cze-sd1-cO8AluHO.mp4]]></MediaFile>
+                            <MediaFile width="1280" height="720" bitrate="2000000" type="video/mp4" delivery="progressive"><![CDATA[https://economia-vod.ssl.cdn.cra.cz/0147/5907/cze-hd1-QVEYVpNf.mp4]]></MediaFile>
+                            <MediaFile width="640" height="360" bitrate="800000" type="video/mp4" delivery="progressive"><![CDATA[https://economia-vod.ssl.cdn.cra.cz/0147/5907/cze-sd2-Q6P2S7ph.mp4]]></MediaFile>
+                        </MediaFiles>
+                        <Duration>00:00:29.900</Duration>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>
