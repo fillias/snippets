@@ -92,6 +92,43 @@ canOnlyFireOnce(); // "Fired!"
 canOnlyFireOnce(); // nada
 
 
+
+/* zavolej jen pokud se zmeni argument url */
+function once(fn, context) {
+  var result;
+  var args = [];
+  
+  return function () {
+    const found = args.some(arg => arg == arguments[0]);
+      if (!found) {
+        result = fn.apply(context || this, arguments); 
+      }
+      args.push(arguments[0]);      
+    return result;
+  };
+}
+
+function hitMeasurePixel(url) {
+  console.log('CALLED: ',url);
+}
+
+
+var measure = once(hitMeasurePixel);
+
+measure('a');
+measure('a');
+measure('b');
+measure('xx');
+measure('b');
+measure('b');
+measure('a');
+measure('xx');
+measure('b');
+measure('HEJ');
+measure('a');
+measure('xx');
+
+
 /********************************************** */
 
 
