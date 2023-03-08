@@ -1,0 +1,1 @@
+console.log('%c ========= BASEURL: ',  'background: #222; color: yellow', '%%BASEURL%%');
