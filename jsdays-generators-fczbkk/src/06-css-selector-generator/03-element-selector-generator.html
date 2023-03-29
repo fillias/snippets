@@ -1,0 +1,38 @@
+<html>
+  <body>
+    <div class="aaa">
+      <div class="bbb">
+        <div class="ccc">
+          <div class="aaa bbb ccc" id="myElement"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function testSelector(element, selector) {
+        const matches = document.querySelectorAll(selector);
+        return matches.length === 1 && matches[0] === element;
+      }
+
+      function* elementSelectorGenerator(element) {
+        const classNames = [...element.classList].map((name) => `.${name}`);
+        for (const classSelector of classNames) {
+          yield classSelector;
+        }
+      }
+
+      function* selectorGenerator(element) {
+        for (const elementCandidate of elementSelectorGenerator(element)) {
+          if (testSelector(element, elementCandidate)) {
+            yield elementCandidate;
+          }
+        }
+      }
+
+      const myElementSelectorGenerator = selectorGenerator(
+        document.getElementById("myElement")
+      );
+      console.log([...myElementSelectorGenerator]);
+    </script>
+  </body>
+</html>

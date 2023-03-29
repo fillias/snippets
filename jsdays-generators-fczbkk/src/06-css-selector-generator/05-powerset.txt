@@ -1,0 +1,11 @@
+set:
+aaa, bbb, ccc
+
+powerset:
+aaa
+bbb
+ccc
+aaa bbb
+aaa ccc
+bbb ccc
+aaa bbb ccc

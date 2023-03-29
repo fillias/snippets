@@ -1,0 +1,58 @@
+<html>
+  <body>
+    <div class="aaa">
+      <div class="bbb">
+        <div class="ccc">
+          <div class="aaa bbb ccc" id="myElement"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function testSelector(element, selector) {
+        const matches = document.querySelectorAll(selector);
+        return matches.length === 1 && matches[0] === element;
+      }
+
+      function* elementParentGenerator(element) {
+        while (element && element !== document.body) {
+          yield element;
+          element = element.parentElement;
+        }
+      }
+
+      function* elementSelectorGenerator(element) {
+        const classNames = [...element.classList].map((name) => `.${name}`);
+        for (const classSelector of classNames) {
+          yield classSelector;
+        }
+      }
+
+      function* selectorGenerator(element) {
+        let previousCandidates = [""];
+        for (const currentElement of elementParentGenerator(element)) {
+          const unsuccessfulCandidates = [];
+          for (const elementCandidate of elementSelectorGenerator(
+            currentElement
+          )) {
+            for (const previousCandidate of previousCandidates) {
+              const selectorCandidate = `${elementCandidate} ${previousCandidate}`;
+              if (testSelector(element, selectorCandidate)) {
+                yield selectorCandidate;
+              } else {
+                unsuccessfulCandidates.push(selectorCandidate);
+              }
+            }
+          }
+          previousCandidates = unsuccessfulCandidates;
+        }
+      }
+
+      const myElement = document.getElementById("myElement");
+      console.log([...elementParentGenerator(myElement)]);
+
+      const myElementSelectorGenerator = selectorGenerator(myElement);
+      // console.log([...myElementSelectorGenerator])
+    </script>
+  </body>
+</html>
