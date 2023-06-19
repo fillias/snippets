@@ -1,0 +1,32 @@
+# hp centrum leader pocet requestu
+# v loggly cca o 3,5% mene nez v SAS (impressions v sas) v pripade HP Centrum
+
+json.targeting.site:"hp" AND  json.targeting.area:"centrum" AND ( json.targeting.size:"leader" OR json.targeting.size:"79a" OR json.targeting.size:"91a" OR json.targeting.size:"11a" OR json.targeting.size:"21a") AND json.eventType:"ALS_ad_request"
+
+
+# v loggly cca o 8% mene nez v SAS (impressions v sas) v pripade Aktualne
+json.targeting.site:"aktualne" AND ( json.targeting.size:"leader" OR json.targeting.size:"79a" OR json.targeting.size:"91a" OR json.targeting.size:"11a" OR json.targeting.size:"21a") AND json.eventType:"ALS_ad_request"
+
+# v loggly cca o 13% mene nez v SAS (impressions v sas) v pripade HN
+json.targeting.site:"ihned" AND ( json.targeting.size:"leader" OR json.targeting.size:"79a" OR json.targeting.size:"91a" OR json.targeting.size:"11a" OR json.targeting.size:"21a") AND json.eventType:"ALS_ad_request"
+
+# v loggly cca o 4% vice nez v SAS (impressions v sas) v pripade Vareni
+json.targeting.site:"vareni" AND ( json.targeting.size:"leader" OR json.targeting.size:"79a" OR json.targeting.size:"91a" OR json.targeting.size:"11a" OR json.targeting.size:"21a") AND json.eventType:"ALS_ad_request"
+
+
+
+
+
+
+# hp centrum leader pocet impresi dle loggly // nepremava
+# impression: If ad code is received and it does not contain call to BeaconUrl, it is true for both success and render_error render statuses. If the ad code contains call to BeaconUrl and the renderStatus is success, it is true. Otherwise it is false. For sas_error it is always false.
+
+json.targeting.site:"hp" AND  json.targeting.area:"centrum" AND ( json.targeting.size:"leader" OR json.targeting.size:"79a" OR json.targeting.size:"91a" OR json.targeting.size:"11a" OR json.targeting.size:"21a") AND json.impression:"t"
+
+
+
+
+json.targeting.size:"leader"  AND  json.eventType:"ALS_ad_request"
+
+
+json.targeting.size:"leader" AND  json.eventType:"ALS_ad_request" je to same
