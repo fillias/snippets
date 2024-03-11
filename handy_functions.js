@@ -1,4 +1,3 @@
-
 /*  https://davidwalsh.name/essential-javascript-functions  */
 
 // The debounce function can be a game-changer when it comes to event-fueled performance.  If you aren't using a debouncing function with a scroll, resize, key* event, you're probably doing it wrong.  Here's a debounce function to keep your code efficient:
@@ -8,110 +7,123 @@
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
 function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-};
+  var timeout;
+  return function () {
+    var context = this,
+      args = arguments;
+    var later = function () {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
 
 // Usage
-var myEfficientFn = debounce(function() {
-	// All the taxing stuff you do
+var myEfficientFn = debounce(function () {
+  // All the taxing stuff you do
 }, 250);
 window.addEventListener('resize', myEfficientFn);
 
-
 /********************************************** */
+
+/*  format date na "neděle 31. října 2027" */
+const formatDate = (date) =>
+  new Intl.DateTimeFormat('cz', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    weekday: 'long',
+  }).format(new Date(date));
+
+/*********************************************** */
 
 // poll
 // As I mentioned with the debounce function, sometimes you don't get to plug into an event to signify a desired state -- if the event doesn't exist, you need to check for your desired state at intervals:
 // The polling function
 function poll(fn, timeout, interval) {
-    var endTime = Number(new Date()) + (timeout || 2000);
-    interval = interval || 100;
+  var endTime = Number(new Date()) + (timeout || 2000);
+  interval = interval || 100;
 
-    var checkCondition = function(resolve, reject) {
-        // If the condition is met, we're done! 
-        var result = fn();
-        if(result) {
-            resolve(result);
-        }
-        // If the condition isn't met but the timeout hasn't elapsed, go again
-        else if (Number(new Date()) < endTime) {
-            setTimeout(checkCondition, interval, resolve, reject);
-        }
-        // Didn't match and too much time, reject!
-        else {
-            reject(new Error('timed out for ' + fn + ': ' + arguments));
-        }
-    };
+  var checkCondition = function (resolve, reject) {
+    // If the condition is met, we're done!
+    var result = fn();
+    if (result) {
+      resolve(result);
+    }
+    // If the condition isn't met but the timeout hasn't elapsed, go again
+    else if (Number(new Date()) < endTime) {
+      setTimeout(checkCondition, interval, resolve, reject);
+    }
+    // Didn't match and too much time, reject!
+    else {
+      reject(new Error('timed out for ' + fn + ': ' + arguments));
+    }
+  };
 
-    return new Promise(checkCondition);
+  return new Promise(checkCondition);
 }
 
 // Usage:  ensure element is visible
-poll(function() {
-	return document.getElementById('lightbox').offsetWidth > 0;
-}, 2000, 150).then(function() {
+poll(
+  function () {
+    return document.getElementById('lightbox').offsetWidth > 0;
+  },
+  2000,
+  150
+)
+  .then(function () {
     // Polling done, now do something else!
-}).catch(function() {
+  })
+  .catch(function () {
     // Polling timed out, handle the error!
-});
-
+  });
 
 /********************************************** */
 
 // once
-function once(fn, context) { 
-	var result;
+function once(fn, context) {
+  var result;
 
-	return function() { 
-		if(fn) {
-			result = fn.apply(context || this, arguments);
-			fn = null;
-		}
+  return function () {
+    if (fn) {
+      result = fn.apply(context || this, arguments);
+      fn = null;
+    }
 
-		return result;
-	};
+    return result;
+  };
 }
 
 // Usage
-var canOnlyFireOnce = once(function() {
-	console.log('Fired!');
+var canOnlyFireOnce = once(function () {
+  console.log('Fired!');
 });
 
 canOnlyFireOnce(); // "Fired!"
 canOnlyFireOnce(); // nada
 
-
-
 /* zavolej jen pokud se zmeni argument url */
 function once(fn, context) {
   var result;
   var args = [];
-  
+
   return function () {
-    const found = args.some(arg => arg == arguments[0]);
-      if (!found) {
-        result = fn.apply(context || this, arguments); 
-      }
-      args.push(arguments[0]);      
+    const found = args.some((arg) => arg == arguments[0]);
+    if (!found) {
+      result = fn.apply(context || this, arguments);
+    }
+    args.push(arguments[0]);
     return result;
   };
 }
 
 function hitMeasurePixel(url) {
-  console.log('CALLED: ',url);
+  console.log('CALLED: ', url);
 }
-
 
 var measure = once(hitMeasurePixel);
 
@@ -128,35 +140,30 @@ measure('HEJ');
 measure('a');
 measure('xx');
 
-
 /********************************************** */
-
-
 
 // sheet insertRule
 //We all know that we can grab a NodeList from a selector (via document.querySelectorAll) and give each of them a style, but what's more efficient is setting that style to a selector (like you do in a stylesheet):
 
-var sheet = (function() {
-	// Create the <style> tag
-	var style = document.createElement('style');
+var sheet = (function () {
+  // Create the <style> tag
+  var style = document.createElement('style');
 
-	// Add a media (and/or media query) here if you'd like!
-	// style.setAttribute('media', 'screen')
-	// style.setAttribute('media', 'only screen and (max-width : 1024px)')
+  // Add a media (and/or media query) here if you'd like!
+  // style.setAttribute('media', 'screen')
+  // style.setAttribute('media', 'only screen and (max-width : 1024px)')
 
-	// WebKit hack :(
-	style.appendChild(document.createTextNode(''));
+  // WebKit hack :(
+  style.appendChild(document.createTextNode(''));
 
-	// Add the <style> element to the page
-	document.head.appendChild(style);
+  // Add the <style> element to the page
+  document.head.appendChild(style);
 
-	return style.sheet;
+  return style.sheet;
 })();
 
 // Usage
-sheet.insertRule("header { float: left; opacity: 0.8; }", 1);
-
-
+sheet.insertRule('header { float: left; opacity: 0.8; }', 1);
 
 /****************************************** */
 
@@ -164,123 +171,131 @@ sheet.insertRule("header { float: left; opacity: 0.8; }", 1);
 // Oftentimes we validate input before moving forward; ensuring a truthy value, ensuring forms data is valid, etc.  But how often do we ensure an element qualifies for moving forward?  You can use a matchesSelector function to validate if an element is of a given selector match:
 
 function matchesSelector(el, selector) {
-	var p = Element.prototype;
-	var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function(s) {
-		return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
-	};
-	return f.call(el, selector);
+  var p = Element.prototype;
+  var f =
+    p.matches ||
+    p.webkitMatchesSelector ||
+    p.mozMatchesSelector ||
+    p.msMatchesSelector ||
+    function (s) {
+      return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
+    };
+  return f.call(el, selector);
 }
 
 // Usage
-matchesSelector(document.getElementById('myDiv'), 'div.someSelector[some-attribute=true]')
-
-
+matchesSelector(
+  document.getElementById('myDiv'),
+  'div.someSelector[some-attribute=true]'
+);
 
 /* entitze ************** */
-var entitize = function(html) {
-    var character, code, i, result, ret, _i, _ref;
-    ret = [];
-    for (i = _i = 0, _ref = html.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-      code = html.charCodeAt(i);
-      character = html.charAt(i);
-      result = code < 128 ? character : "&#" + code + ";";
-      ret.push(result);
-    }
-    return ret.join('');
-  };
+var entitize = function (html) {
+  var character, code, i, result, ret, _i, _ref;
+  ret = [];
+  for (
+    i = _i = 0, _ref = html.length - 1;
+    0 <= _ref ? _i <= _ref : _i >= _ref;
+    i = 0 <= _ref ? ++_i : --_i
+  ) {
+    code = html.charCodeAt(i);
+    character = html.charAt(i);
+    result = code < 128 ? character : '&#' + code + ';';
+    ret.push(result);
+  }
+  return ret.join('');
+};
 
-  console.log(entitize('žofinka ma hlad'));
+console.log(entitize('žofinka ma hlad'));
 
+/*  Vazeny prumer ***************************************/
 
-  /*  Vazeny prumer ***************************************/
+var a = [
+  62, 67, 71, 74, 76, 77, 78, 79, 79, 80, 80, 81, 81, 82, 83, 84, 86, 89, 93,
+  98,
+];
 
-var a = [62, 67, 71, 74, 76, 77, 78, 79, 79, 80, 80, 81, 81, 82, 83, 84, 86, 89, 93, 98];
+var b = [
+  80, 81, 82, 83, 84, 85, 86, 87, 87, 88, 88, 89, 89, 89, 90, 90, 90, 90, 91,
+  91, 91, 92, 92, 93, 93, 94, 95, 96, 97, 98, 99, 100,
+];
 
-var b = [80, 81, 82, 83, 84, 85, 86, 87, 87, 88, 88, 89, 89, 89, 90, 90, 90, 90, 91, 91, 91, 92, 92, 93, 93, 94, 95, 96, 97, 98, 99, 100];
-
-function getPrumer (vstup) {
-    var soucet = vstup.reduce( (acc, currentvalue) => {
-        return acc + currentvalue;
-    });
-    return soucet / vstup.length;
+function getPrumer(vstup) {
+  var soucet = vstup.reduce((acc, currentvalue) => {
+    return acc + currentvalue;
+  });
+  return soucet / vstup.length;
 }
 
-function getVazenyPrumer (vstup1, vstup2) {
-    var prumer1 = getPrumer(vstup1);
-    var prumer2 = getPrumer(vstup2);
+function getVazenyPrumer(vstup1, vstup2) {
+  var prumer1 = getPrumer(vstup1);
+  var prumer2 = getPrumer(vstup2);
 
-    return (prumer1 * vstup1.length + prumer2 * vstup2.length) / (vstup1.length + vstup2.length) ;
+  return (
+    (prumer1 * vstup1.length + prumer2 * vstup2.length) /
+    (vstup1.length + vstup2.length)
+  );
 }
 
 console.log(getVazenyPrumer(a, b));
 
-
 /*  get uniques from array */
-function getUnique(arr) { 
-    return arr.filter( (value, index, self) => { 
-        return self.indexOf(value) === index;
-    } );
+function getUnique(arr) {
+  return arr.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
 }
 
-
-
-
 // iterace v objektu misto for...in vcetne zjisteni konce
-const object = {a: 1, b: 2, c: 3};
+const object = { a: 1, b: 2, c: 3 };
 
-Object.keys(object).forEach(function(key, i) {
+Object.keys(object).forEach(function (key, i) {
   var keys = Object.keys(object);
-  var last = keys[keys.length-1];
+  var last = keys[keys.length - 1];
 
-  console.log(keys.length-1);
+  console.log(keys.length - 1);
 
   console.log(`${key}: ${object[key]} ${i}`);
 });
 
-
 //  wait funkce s async / await
 function wait(ms) {
-    return new Promise(resolve => {
-      setTimeout(resolve, ms);
-    });
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
-  
-  
-  async function doStuff() {
-    for (i = 0; i < 5; i++) {
-  
-      await wait(2000);
-      console.log(i);
-    }
-    console.log('done loop');
+
+async function doStuff() {
+  for (i = 0; i < 5; i++) {
+    await wait(2000);
+    console.log(i);
   }
-  doStuff();
-  
-  console.log('done first');
+  console.log('done loop');
+}
+doStuff();
 
+console.log('done first');
 
-
-  // async v forEach
-  async function asyncForEach(array, callback) {
-    for (let index = 0; index < array.length; index++) {
-      await callback(array[index], index, array);
-    }
+// async v forEach
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
   }
+}
 
-  asyncForEach([1, 2, 3], async (num) => {
-    await waitFor(50);
-    console.log(num);
-  })
-  console.log('Done')
-
+asyncForEach([1, 2, 3], async (num) => {
+  await waitFor(50);
+  console.log(num);
+});
+console.log('Done');
 
 /// flag emoji
-  function getFlagEmoji(countryCode) {
-    const codePoints = countryCode
-      .toUpperCase()
-      .split('')
-      .map(char =>  127397 + char.charCodeAt());
-    return String.fromCodePoint(...codePoints);
-  }
+function getFlagEmoji(countryCode) {
+  const codePoints = countryCode
+    .toUpperCase()
+    .split('')
+    .map((char) => 127397 + char.charCodeAt());
+  return String.fromCodePoint(...codePoints);
+}
 
-  getFlagEmoji('US')
+getFlagEmoji('US');
