@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iframe preclick</title>
+</head>
+
+<body>
+    <div style="width:200px; height: 100px; border: 1px solid black; margin: 1rem; background-color: bisque;">
+        <h3>test preclickurl inside Iframe</h3>
+        <a href="#" target="_blank">click me</a>
+    </div>
+
+
+    <script type="text/javascript">
+        (function () {
+            function getURLParameter(name, url) {
+                if (!url) url = location.href;
+                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                var regexS = "[\\?&]" + name + "=([^&#]*)";
+                var regex = new RegExp(regexS);
+                var results = regex.exec(url);
+                return results == null ? null : results[1];
+            }
+            var preclickurl = getURLParameter("click") || "";
+            var anchors = document.getElementsByTagName("a");
+            var clickthru = "";
+            for (i = 0; i < anchors.length; i++) {
+                if (
+                    anchors[i].getAttribute("href") != "" &&
+                    anchors[i].getAttribute("href") != "#"
+                ) {
+                    clickthru = encodeURIComponent(anchors[i].href);
+                } else {
+                    clickthru = "";
+                }
+                if (anchors[i]) {
+                    anchors[i].setAttribute("target", "_blank");
+                    anchors[i].href = preclickurl + clickthru;
+                }
+            }
+        })();
+    </script>
+    </script>
+</body>
+
+</html>
