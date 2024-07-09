@@ -1,0 +1,40 @@
+<script type='text/javascript'>
+    (() => {
+        function rc() {
+            const c = document.querySelector('.js-caroda-desktop') || document.querySelector('.carodaBanner');
+            if (c) {
+                c.remove();
+            }
+        }
+
+        window.addEventListener('scroll', debounce(init, 70));
+
+        function init(e) {
+            if (window.pageYOffset >= 2500) {
+                alert(`${window.pageYOffset}px odscrolovano`);
+                // rc();
+                // const ci = setInterval(rc, 200);
+            }
+            // console.log(e);
+
+
+        }
+
+
+        function debounce(func, wait, immediate) {
+            var timeout;
+            return function () {
+                var context = this,
+                    args = arguments;
+                var later = function () {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
+    })();
+</script>

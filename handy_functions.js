@@ -1,3 +1,11 @@
+// hard copy of nested array:
+const initialGameboard = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+];
+let gameboard = [...initialGameboard.map((arr) => [...arr])];
+
 /*  https://davidwalsh.name/essential-javascript-functions  */
 
 // The debounce function can be a game-changer when it comes to event-fueled performance.  If you aren't using a debouncing function with a scroll, resize, key* event, you're probably doing it wrong.  Here's a debounce function to keep your code efficient:
