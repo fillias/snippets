@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Sixtyfour&display=swap");
+
+        :root {
+            --hsl-primary: 249, 31%, 26%;
+            --hsl-secondary: 215, 27%, 42%;
+            --hsl-tertiary: 176, 39%, 60%;
+            --hsl-quaternary: 71, 64%, 82%;
+
+            --default-opacity: 0.75;
+
+            --primary: hsla(var(--hsl-primary), var(--default-opacity));
+            --secondary: hsla(var(--hsl-secondary), var(--default-opacity));
+            --tertiary: hsla(var(--hsl-tertiary), var(--default-opacity));
+            --quaternary: hsla(var(--hsl-quaternary), var(--default-opacity));
+        }
+
+        * {
+            /* border: 2px solid rgba(0, 0, 0, .2); */
+            min-width: 2rem;
+            min-height: 2rem;
+            padding: 0;
+            margin: 0;
+            font-family: "Sixtyfour", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            font-variation-settings: "BLED" 0, "SCAN" 0;
+            text-transform: uppercase;
+        }
+
+        body {
+            display: flex;
+            place-items: center;
+            place-content: center;
+            background: hsl(var(--hsl-primary));
+        }
+
+        #calendar__container {
+            border-color: gray;
+            min-height: 90vh;
+            max-width: 90vw;
+            display: flex;
+            flex-direction: column;
+            padding: 1em;
+            gap: 1em;
+        }
+
+        #calendar__controls {
+            display: flex;
+            place-items: center;
+            place-content: space-around;
+            padding: 0;
+            color: hsla(var(--hsl-tertiary), 0.5);
+        }
+
+        #calendar__controls h1,
+        #calendar__controls button {
+            height: 100%;
+            font-size: 3rem;
+            margin: 0;
+            text-shadow: 0.3rem 0.3rem 0.5rem hsla(var(--hsl-primary), 0.4);
+        }
+
+        #calendar {
+            overflow: hidden;
+            padding: 1em;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+            color: hsl(var(--hsl-primary));
+            text-shadow: 0.1em 0.1em 0 hsla(var(--hsl-tertiary), 0.4);
+        }
+
+        .calendar__weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5em;
+        }
+
+        .calendar__dayname {
+            font-size: 1rem;
+            text-align: center;
+            background: hsla(var(--hsl-primary), 0.2);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border-color: brown;
+            display: flex;
+            place-items: center;
+            place-content: center;
+        }
+
+        .calendar__week {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.8em;
+        }
+
+        .calendar__day {
+            background: var(--secondary);
+            font-size: 1.5rem;
+            display: flex;
+            place-items: flex-start;
+            place-content: flex-start;
+            padding: 0.6rem;
+            border-radius: 1rem;
+            color: var(--bg-color);
+        }
+
+        .current-month.weekend {
+            filter: saturate(0.5);
+        }
+
+        /* Different styles for months */
+        .prev-month {
+            background: hsla(var(--hsl-tertiary), 0.15);
+        }
+
+        .next-month {
+            background: hsla(var(--hsl-tertiary), 0.15);
+        }
+
+        .current-month {
+            background: var(--secondary);
+        }
+
+        .weekend {
+            background: hsla(var(--hsl-quaternary), 0.4);
+            color: hsla(var(--hsl-primary), 1);
+        }
+
+        .today {
+            outline: 3px solid hsla(var(--hsl-quaternary), 1);
+            color: hsl(var(--hsl-quaternary));
+            background-color: hsla(var(--hsl-secondary), 1);
+            font-weight: bold;
+        }
+
+        button {
+            background: var(--primary);
+            color: var(--bg-color);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .next-month,
+        .prev-month {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <article id="calendar__container">
+            <section id="calendar__controls">
+                <button class="icon" id="prev-month">◀</button>
+                <h1 id="date"></h1>
+                <button class="icon" id="next-month">▶</button>
+            </section>
+
+            <section id="calendar"></section>
+        </article>
+    </main>
+    <script>
+        let container;
+        let currentMonth;
+        let currentYear;
+        const DAYS_OF_WEEK = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            container = document.getElementById("calendar");
+            const now = new Date();
+            currentMonth = now.getMonth();
+            currentYear = now.getFullYear();
+            renderCalendar(currentMonth, currentYear);
+
+            document.querySelector("#prev-month").addEventListener("click", () => {
+                if (currentMonth === 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                } else {
+                    currentMonth--;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+
+            document.querySelector("#next-month").addEventListener("click", () => {
+                if (currentMonth === 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                } else {
+                    currentMonth++;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+        });
+
+        function setDateDisplay(month, year) {
+            // TODO: fix date jank
+            const date = document.getElementById("date");
+            function numberToMonth(number) {
+                if (number < 1 || number > 12) return "Jan";
+                let date = new Date(0, number);
+                return date.toLocaleString("default", { month: "short" });
+            }
+
+            date.innerHTML = `${numberToMonth(month)} ${year}`;
+        }
+        function renderCalendar(month, year) {
+            const data = generateCalendar(month, year);
+            setDateDisplay(month, year);
+            container.innerHTML = "";
+
+            const weekdayRow = document.createElement("div");
+            weekdayRow.className = "calendar__weekdays";
+
+            for (const dayName of data.daysOfWeek) {
+                const label = document.createElement("div");
+                label.className = "calendar__dayname";
+                label.textContent = dayName;
+                weekdayRow.appendChild(label);
+            }
+
+            container.appendChild(weekdayRow);
+
+            for (const week of data.days) {
+                const weekRow = document.createElement("div");
+                weekRow.className = "calendar__week";
+
+                for (const dayObj of week) {
+                    const p = document.createElement("p");
+                    p.className = `calendar__day ${dayObj.className}`;
+                    p.textContent = dayObj.day;
+
+                    const dayIndex = data.daysOfWeek.indexOf(dayObj.weekday);
+                    // TODO: handle weekend style better
+                    if (dayIndex === 5 || dayIndex === 6) {
+                        p.classList.add("weekend");
+                    }
+
+                    weekRow.appendChild(p);
+                }
+
+                container.appendChild(weekRow);
+            }
+        }
+
+        function generateCalendar(month, year) {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+
+            const daysOfWeek = DAYS_OF_WEEK;
+            const startDay = (firstDay.getDay() + 6) % 7; // convert to Monday=0
+            const prevMonthDays = getPrevMonthDays(startDay, month, year);
+            const currentMonthDays = getMonthDays(daysInMonth, month, year);
+            const nextMonthDays = getNextMonthDays(startDay, daysInMonth);
+
+            const days = [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
+            return {
+                month: month + 1,
+                year,
+                daysOfWeek,
+                days: chunkDaysIntoWeeks(days)
+            };
+        }
+
+        function getPrevMonthDays(startDay, month, year) {
+            const prevMonthDate = new Date(year, month, 0);
+            const prevMonthTotal = prevMonthDate.getDate();
+            return Array.from({ length: startDay }, (_, i) => {
+                const day = prevMonthTotal - startDay + i + 1;
+                const weekday = DAYS_OF_WEEK[i % 7];
+                return { day, className: "prev-month", weekday };
+            });
+        }
+
+        function getMonthDays(daysInMonth, month, year) {
+            const today = new Date();
+            const isCurrentMonth =
+                month === today.getMonth() && year === today.getFullYear();
+
+            return Array.from({ length: daysInMonth }, (_, i) => {
+                const day = i + 1;
+                const date = new Date(year, month, day);
+                const weekday = DAYS_OF_WEEK[(date.getDay() + 6) % 7];
+                let className = "current-month";
+                if (isCurrentMonth && day === today.getDate()) {
+                    className += " today";
+                }
+                return { day, className, weekday };
+            });
+        }
+
+        function getNextMonthDays(startDay, daysInMonth) {
+            const totalCells = startDay + daysInMonth;
+            const remainder = totalCells % 7;
+            const fill = remainder === 0 ? 0 : 7 - remainder;
+
+            return Array.from({ length: fill }, (_, i) => {
+                const weekday = DAYS_OF_WEEK[(i + startDay + daysInMonth) % 7];
+                return { day: i + 1, className: "next-month", weekday };
+            });
+        }
+
+        function chunkDaysIntoWeeks(days) {
+            const weeks = [];
+            while (days.length) {
+                weeks.push(days.splice(0, 7));
+            }
+            return weeks;
+        }
+
+    </script>
+</body>
+
+</html>
