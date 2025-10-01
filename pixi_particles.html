@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+
+</head>
+
+<body style="margin: 0; padding: 0;">
+    <div id="app" style="background-color: black; position: fixed;">
+
+    </div>
+    <div
+        style="position: relative;display: flex; align-items: center; justify-content: center; width: 100dvw; height: 100dvh;">
+        <h1 style="color: aliceblue;font-size: 3rem;">jiskry</h1>
+    </div>
+
+
+    <script>
+
+
+        // Jiskry
+
+        const rand = (min, max) => min + Math.random() * (max - min);
+        const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+        // Generate a non-collinear bezier path per particle
+        function makeBezierPath(width, baseY) {
+            // Start around baseY with slight offset to avoid a hard line
+            const startY = baseY + rand(-18, 18);
+
+            // Horizontal drift bias (random wind per ember)
+            const wind = rand(-0.4, 0.4); // small bias to left/right
+            const x0 = rand(0, width);
+            const spread = rand(90, 260); // how far it can wander
+
+            // Each control point moves further up with organic horizontal variance
+            const p1 = { x: x0 + rand(-spread, spread) * (0.4 + wind), y: startY + rand(-40, -60) };
+            const p2 = { x: x0 + rand(-spread, spread) * (0.6 + wind), y: startY + rand(-120, -160) };
+            const p3 = { x: x0 + rand(-spread, spread) * (0.8 + wind), y: startY + rand(-220, -300) };
+            const p4 = { x: x0 + rand(-spread, spread) * (1.0 + wind), y: startY + rand(-360, -460) };
+            const p5 = { x: x0 + rand(-spread * 1.2, spread * 1.2) * (1.2 + wind), y: startY + rand(-520, -680) };
+
+            // Return absolute-space points for GSAP BezierPlugin
+            return [
+                { x: x0, y: startY },
+                p1, p2, p3, p4, p5
+            ];
+        }
+
+        class EmberField {
+            constructor(colors, app, opts = {}) {
+                this.app = app;
+                this.container = new PIXI.Container();
+                this.colors = colors;
+                this.opts = Object.assign({
+                    baseYRatio: 1,     // where the “ground line” sits
+                    emitRate: 5000,         // ms between emission attempts
+                    density: 0.7,        // probability to emit on a tick
+                    minT: 3,
+                    maxT: 6,
+                    minScale: 0.3,
+                    maxScale: 0.7,
+                    radius: 50,            // particle radius
+                    blendMode: PIXI.BLEND_MODES.ADD,
+                    pixelate: false
+                }, opts);
+
+                // Build textures
+                this.textures = [];
+                this._buildTextures();
+
+                // Optional pixelate
+                if (this.opts.pixelate && PIXI.filters && PIXI.filters.PixelateFilter) {
+                    this.container.filters = [new PIXI.filters.PixelateFilter()];
+                }
+
+                // Emit on ticker with stochastic cadence (avoids “on the same line” rhythm)
+                this._accum = 0;
+                this._nextEmitIn = this.opts.emitRate;
+                app.ticker.add(this._tick);
+
+                // Stoke burst on click
+                //window.addEventListener('click', () => this.stoke());
+            }
+
+            destroy() {
+                this.app.ticker.remove(this._tick);
+            }
+
+            _buildTextures() {
+                const g = new PIXI.Graphics();
+                for (const color of this.colors) {
+                    g.clear();
+                    g.beginFill(color, 1);
+                    g.drawCircle(0, 0, this.opts.radius);
+                    g.endFill();
+                    const tex = this.app.renderer.generateTexture(g);
+                    this.textures.push(tex);
+                }
+            }
+
+            get baseY() { return window.innerHeight * this.opts.baseYRatio; }
+            get width() { return window.innerWidth; }
+
+            _tick = (delta) => {
+                // delta ~ 1 @ 60fps; convert to ms
+                const ms = delta * (1000 / 60);
+                this._accum += ms;
+
+                if (this._accum >= this._nextEmitIn) {
+                    this._accum = 0;
+                    // Randomize next interval a bit (de-clumps lanes)
+                    this._nextEmitIn = this.opts.emitRate * rand(0.7, 1.3);
+
+                    if (Math.random() < this.opts.density) {
+                        // Emit 1–3 embers per “tick” with slight delays to avoid simultaneity
+                        const count = Math.random() < 0.6 ? 1 : (Math.random() < 0.8 ? 2 : 3);
+                        for (let i = 0; i < count; i++) {
+                            const delay = i * rand(12, 40);
+                            setTimeout(() => this.addEmber(), delay);
+                        }
+                    }
+                }
+            }
+
+            stoke() {
+                const burst = 40 + Math.round(Math.random() * 20);
+                for (let i = 0; i < burst; i++) {
+                    setTimeout(() => this.addEmber(), rand(0, 220));
+                }
+            }
+
+            addEmber() {
+                const texture = pick(this.textures);
+                let blob = new PIXI.Sprite(texture);
+                blob.anchor.set(0.5);
+
+                // Organic scale/aspect + slight rotation variance
+                const s = rand(this.opts.minScale, this.opts.maxScale);
+                blob.scale.set(s * rand(0.88, 1.12), s * rand(0.88, 1.12));
+                blob.rotation = rand(-0.6, 0.6);
+                blob.alpha = rand(0.7, 1);
+
+                blob.blendMode = this.opts.blendMode;
+
+                // Start anywhere across width
+                const path = makeBezierPath(this.width, this.baseY);
+                blob.position.set(path[0].x, path[0].y);
+
+                this.container.addChild(blob);
+
+                // Lifetime
+                const t = rand(this.opts.minT, this.opts.maxT);
+
+                // Fade-out synced with travel, but not perfectly (removes uniformity)
+                TweenMax.to(blob, t * rand(0.45, 0.55), {
+                    delay: t * rand(0.45, 0.55),
+                    ease: Power1.easeOut,
+                    alpha: 0
+                });
+
+                // Travel along bezier
+                TweenMax.to(blob, t, {
+                    bezier: { type: "soft", values: path },
+                    ease: Power1.easeOut,
+                    onComplete: () => {
+                        if (blob && blob.parent) blob.parent.removeChild(blob);
+                        blob = null;
+                    }
+                });
+            }
+        }
+
+        // ----- Boot --------------------------------------------------------------
+
+        (function () {
+            const app = new PIXI.Application({
+                resizeTo: window,
+                backgroundAlpha: 0,
+                antialias: true
+            });
+            document.getElementById('app').appendChild(app.view);
+
+            const root = new PIXI.Container();
+            app.stage.addChild(root);
+
+            // Warm ember palette (mix of oranges/ambers)
+            const ember = new EmberField(
+                [0xFE9C00, 0xFEA600, 0xE27100, 0xFFCC66, 0xFFB347, 0xFFD39A],
+                app,
+                {
+                    emitRate: 200,
+                    density: 0.5,
+                    minT: 3,
+                    maxT: 6,
+                    radius: 3,
+                    baseYRatio: 0.99,
+                    blendMode: PIXI.BLEND_MODES.SCREEN
+                }
+            );
+
+            root.addChild(ember.container);
+
+
+        })();
+
+
+
+    </script>
+</body>
+
+</html>
