@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Radio player</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="stylesheet" type="text/css" href="assets/global.css">
+    <link rel="icon" type="image/png" href="assets/icon/favicon.png">
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="radio-player">
+
+            <div id="player-screen">
+                <div id="animation">
+                    <div id="stop-container">
+                        <svg fill="#686868" version="1.1" width="100%" height="100%" viewBox="0 0 277.33 277.33">
+                            <path
+                                d="M231.677,0H45.665C20.45,0,0,20.442,0,45.657v186.021c0,25.207,20.45,45.652,45.665,45.652h186.012 c25.223,0,45.653-20.445,45.653-45.652V45.657C277.338,20.434,256.899,0,231.677,0z" />
+                        </svg>
+                    </div>
+                    <div id="playing-container" class="hidden">
+                        <div class="a-box a-box1"></div>
+                        <div class="a-box a-box2"></div>
+                        <div class="a-box a-box3"></div>
+                        <div class="a-box a-box4"></div>
+                        <div class="a-box a-box5"></div>
+                    </div>
+                    <div id="loading-container" class="hidden">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+
+                <div id="info">
+                    <h2 class="title">Radio station</h2>
+                    <p class="codec-playing">codec</p>
+                    <span class="separator">●</span>
+                    <p class="genre-playing">genre</p>
+                </div>
+            </div>
+
+            <div id="player-controls">
+                <div id="backward-button" class="backward-forward-buttons">
+                    <svg data-direction="backward" fill="#ffaa22" width="100%" height="100%" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.79-2.907L8.5 7.028V5.5a.5.5 0 0 0-.79-.407L5 7.028V5.5a.5.5 0 0 0-1 0v5a.5.5 0 0 0 1 0V8.972l2.71 1.935a.5.5 0 0 0 .79-.407V8.972l2.71 1.935A.5.5 0 0 0 12 10.5v-5a.5.5 0 0 0-.79-.407z" />
+                    </svg>
+                </div>
+                <div id="reset-button">
+                    <svg fill="#ffaa22" width="100%" height="100%" viewBox="0 0 277.33 277.33">
+                        <path
+                            d="M231.677,0H45.665C20.45,0,0,20.442,0,45.657v186.021c0,25.207,20.45,45.652,45.665,45.652h186.012 c25.223,0,45.653-20.445,45.653-45.652V45.657C277.338,20.434,256.899,0,231.677,0z" />
+                    </svg>
+                </div>
+                <div id="play-pause-button">
+                    <div id="play-button" class="button">
+                        <svg fill="#ffaa22" width="100%" height="100%" viewBox="0 0 408.221 408.221">
+                            <path
+                                d="M204.11,0C91.388,0,0,91.388,0,204.111c0,112.725,91.388,204.11,204.11,204.11c112.729,0,204.11-91.385,204.11-204.11
+                                    C408.221,91.388,316.839,0,204.11,0z M286.547,229.971l-126.368,72.471c-17.003,9.75-30.781,1.763-30.781-17.834V140.012
+                                    c0-19.602,13.777-27.575,30.781-17.827l126.368,72.466C303.551,204.403,303.551,220.217,286.547,229.971z" />
+                        </svg>
+                    </div>
+                    <div id="pause-button" class="button hidden">
+                        <svg fill="#ffaa22" width="100%" height="100%" viewBox="0 0 45.81 45.81">
+                            <path
+                                d="M39.104,6.708c-8.946-8.943-23.449-8.946-32.395,0c-8.946,8.944-8.946,23.447,0,32.394 c8.944,8.946,23.449,8.946,32.395,0C48.047,30.156,48.047,15.653,39.104,6.708z M20.051,31.704c0,1.459-1.183,2.64-2.641,2.64 s-2.64-1.181-2.64-2.64V14.108c0-1.457,1.182-2.64,2.64-2.64s2.641,1.183,2.641,2.64V31.704z M31.041,31.704 c0,1.459-1.183,2.64-2.64,2.64s-2.64-1.181-2.64-2.64V14.108c0-1.457,1.183-2.64,2.64-2.64s2.64,1.183,2.64,2.64V31.704z" />
+                        </svg>
+                    </div>
+                </div>
+                <div id="reload-button">
+                    <svg fill="#ffaa22" width="100%" height="100%" viewBox="0 0 24.00 24.00">
+                        <path
+                            d="M23,12A11,11,0,1,1,12,1a10.9,10.9,0,0,1,5.882,1.7l1.411-1.411A1,1,0,0,1,21,2V6a1,1,0,0,1-1,1H16a1,1,0,0,1-.707-1.707L16.42,4.166A8.9,8.9,0,0,0,12,3a9,9,0,1,0,9,9,1,1,0,0,1,2,0Z" />
+                    </svg>
+                </div>
+                <div id="forward-button" class="backward-forward-buttons">
+                    <svg data-direction="forward" fill="#ffaa22" width="100%" height="100%" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.79 5.093A.5.5 0 0 0 4 5.5v5a.5.5 0 0 0 .79.407L7.5 8.972V10.5a.5.5 0 0 0 .79.407L11 8.972V10.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-1 0v1.528L8.29 5.093a.5.5 0 0 0-.79.407v1.528L4.79 5.093z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div id="filter">
+            <div id="quality-switcher">
+                <input type="checkbox" id="toggle" class="toggleCheckbox" checked />
+                <label for="toggle" class='toggleContainer'>
+                    <div>LQ</div>
+                    <div>HQ</div>
+                </label>
+            </div>
+            <p id="random-station" class="filter-item">Random</p>
+            <p>or filter by</p>
+            <p id="filter-normal" class="filter-item">Normal</p>
+            <p id="filter-genre" class="filter-item">Genre</p>
+        </div>
+
+        <div id="stations"></div>
+
+        <div id="footer">
+            <span>
+                <p id="total-stations"></p> radio stations
+            </span>
+        </div>
+    </div>
+
+    <script src="assets/global.js"></script>
+</body>
+
+</html>
